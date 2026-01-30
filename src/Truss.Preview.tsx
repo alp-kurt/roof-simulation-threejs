@@ -24,7 +24,7 @@ export function TrussPreview({
     elevationOffset: number;
   };
 }) {
-  const size = Math.max(0.01, memberSize);
+  const size = Number.isFinite(memberSize) ? Math.max(0.01, memberSize) : 0.1;
   const controlsRef = React.useRef<any>(null);
   const [showGrid, setShowGrid] = React.useState(true);
   const [showAxes, setShowAxes] = React.useState(false);

@@ -5,6 +5,7 @@ import { generateDoubleHoweTruss, Member } from './ITrussSpecification';
 import { materialPresets } from './render/palette';
 import { InputsPanel } from './ui/InputsPanel';
 import { defaultTrussState, spanPresets, rendererDefaults } from './config';
+import { normalizeInputs } from './geometry/validation';
 
 function App() {
 
@@ -16,19 +17,28 @@ function App() {
     defaultTrussState.materialPreset
   );
 
-  const trussMembers: Member[] = useMemo(
+  const normalized = useMemo(
     () =>
-      generateDoubleHoweTruss({
+      normalizeInputs({
         width: trussWidth,
         pitchDeg: pitch,
         maxVerticalSpacing: maxVerticalMemberSpacing,
       }),
     [trussWidth, pitch, maxVerticalMemberSpacing]
   );
-  const panelCount = Math.max(1, Math.ceil(trussWidth / maxVerticalMemberSpacing));
-  const ridgeHeight = (trussWidth / 2) * Math.tan((pitch * Math.PI) / 180);
+  const trussMembers: Member[] = useMemo(
+    () =>
+      generateDoubleHoweTruss({
+        width: normalized.width,
+        pitchDeg: normalized.pitchDeg,
+        maxVerticalSpacing: normalized.maxVerticalSpacing,
+      }),
+    [normalized]
+  );
+  const panelCount = Math.max(1, Math.ceil(normalized.width / normalized.maxVerticalSpacing));
+  const ridgeHeight = (normalized.width / 2) * Math.tan((normalized.pitchDeg * Math.PI) / 180);
 
-  const memberSizeMeters = memberSize / 100;
+  const memberSizeMeters = Number.isFinite(memberSize) ? memberSize / 100 : defaultTrussState.memberSize / 100;
 
   return (
     <div className="App">
