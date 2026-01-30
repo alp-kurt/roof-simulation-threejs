@@ -54,12 +54,6 @@ The app runs at `http://localhost:3000`.
 - This tool is **geometry only**—no structural analysis or physics.
 - All coordinates are generated in the X–Y plane (Z = 0).
 
-## Project Guidance
-
-- Design brief: `INSTRUCTIONS.md`
-- Delivery plan: `ROADMAP.md`
-- Agent roles: `AGENTS.md`
-
 ## Author
 
 Alp Kurt
