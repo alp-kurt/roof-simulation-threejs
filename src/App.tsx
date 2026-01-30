@@ -4,14 +4,17 @@ import { TrussPreview } from './Truss.Preview';
 import { generateDoubleHoweTruss, Member } from './ITrussSpecification';
 import { materialPresets } from './render/palette';
 import { InputsPanel } from './ui/InputsPanel';
+import { defaultTrussState, spanPresets, rendererDefaults } from './config';
 
 function App() {
 
-  const [trussWidth, setTrussWidth] = React.useState(20);
-  const [pitch, setPitch] = React.useState(17);
-  const [maxVerticalMemberSpacing, setMaxVerticalMemberSpacing] = React.useState(1.5);
-  const [memberSize, setMemberSize] = React.useState(0.2);
-  const [materialPreset, setMaterialPreset] = React.useState<keyof typeof materialPresets>('Steel');
+  const [trussWidth, setTrussWidth] = React.useState(defaultTrussState.width);
+  const [pitch, setPitch] = React.useState(defaultTrussState.pitchDeg);
+  const [maxVerticalMemberSpacing, setMaxVerticalMemberSpacing] = React.useState(defaultTrussState.maxVerticalSpacing);
+  const [memberSize, setMemberSize] = React.useState(defaultTrussState.memberSize);
+  const [materialPreset, setMaterialPreset] = React.useState<keyof typeof materialPresets>(
+    defaultTrussState.materialPreset
+  );
 
   const trussMembers: Member[] = useMemo(
     () =>
@@ -41,6 +44,7 @@ function App() {
             maxVerticalMemberSpacing={maxVerticalMemberSpacing}
             memberSize={memberSize}
             materialPreset={materialPreset}
+            spanPresets={spanPresets}
             onWidthChange={setTrussWidth}
             onPitchChange={setPitch}
             onSpacingChange={setMaxVerticalMemberSpacing}
@@ -62,6 +66,7 @@ function App() {
                 members={trussMembers}
                 memberSize={memberSize}
                 palette={materialPresets[materialPreset]}
+                rendererConfig={rendererDefaults}
               />
             </div>
           </section>

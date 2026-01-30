@@ -9,10 +9,20 @@ export function TrussPreview({
   members,
   memberSize,
   palette,
+  rendererConfig,
 }: {
   members: Member[];
   memberSize: number;
   palette: Palette;
+  rendererConfig: {
+    minDistance: number;
+    maxDistance: number;
+    grid: { size: number; divisions: number; color1: string; color2: string };
+    axesSize: number;
+    groundColor: string;
+    ridgeColor: string;
+    elevationOffset: number;
+  };
 }) {
   const size = Math.max(0.01, memberSize);
   const controlsRef = React.useRef<any>(null);
@@ -50,7 +60,7 @@ export function TrussPreview({
           type="button"
           onClick={() => {
             if (!controlsRef.current) return;
-            controlsRef.current.object.position.set(centerX, bounds.maxY + 8, 0);
+            controlsRef.current.object.position.set(centerX, bounds.maxY + rendererConfig.elevationOffset, 0);
             controlsRef.current.target.set(centerX, centerY, 0);
             controlsRef.current.update();
           }}
@@ -67,17 +77,30 @@ export function TrussPreview({
       <Canvas style={{height: "100%", width: "100%"}}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 10, 10]} intensity={0.8} />
-        <OrbitControls ref={controlsRef} minDistance={2} maxDistance={80} />
-        {showGrid && <gridHelper args={[100, 20, "#2a3342", "#1f2733"]} />}
-        {showAxes && <axesHelper args={[5]} />}
+        <OrbitControls
+          ref={controlsRef}
+          minDistance={rendererConfig.minDistance}
+          maxDistance={rendererConfig.maxDistance}
+        />
+        {showGrid && (
+          <gridHelper
+            args={[
+              rendererConfig.grid.size,
+              rendererConfig.grid.divisions,
+              rendererConfig.grid.color1,
+              rendererConfig.grid.color2,
+            ]}
+          />
+        )}
+        {showAxes && <axesHelper args={[rendererConfig.axesSize]} />}
         <group>
           <mesh position={[centerX, groundY, 0]}>
             <boxGeometry args={[Math.max(0.1, bounds.maxX - bounds.minX), size * 0.25, size * 0.25]} />
-            <meshStandardMaterial color="#999999" />
+            <meshStandardMaterial color={rendererConfig.groundColor} />
           </mesh>
           <mesh position={[ridgeX, ridgeY + size * 0.75, 0]}>
             <boxGeometry args={[size * 0.5, size * 1.5, size * 0.5]} />
-            <meshStandardMaterial color="#cccccc" />
+            <meshStandardMaterial color={rendererConfig.ridgeColor} />
           </mesh>
         </group>
         {members.map((member) => {

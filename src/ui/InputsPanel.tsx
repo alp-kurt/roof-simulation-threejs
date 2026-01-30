@@ -1,5 +1,4 @@
 import React from 'react';
-import { spanPresets } from './presets';
 import { materialPresets } from '../render/palette';
 
 interface InputsPanelProps {
@@ -8,12 +7,13 @@ interface InputsPanelProps {
   maxVerticalMemberSpacing: number;
   memberSize: number;
   materialPreset: keyof typeof materialPresets;
+  spanPresets: { label: string; width: number; pitch: number; spacing: number }[];
   onWidthChange: (value: number) => void;
   onPitchChange: (value: number) => void;
   onSpacingChange: (value: number) => void;
   onMemberSizeChange: (value: number) => void;
   onMaterialChange: (value: keyof typeof materialPresets) => void;
-  onPresetApply: (preset: (typeof spanPresets)[number]) => void;
+  onPresetApply: (preset: { label: string; width: number; pitch: number; spacing: number }) => void;
 }
 
 export const InputsPanel = ({
@@ -22,6 +22,7 @@ export const InputsPanel = ({
   maxVerticalMemberSpacing,
   memberSize,
   materialPreset,
+  spanPresets,
   onWidthChange,
   onPitchChange,
   onSpacingChange,
