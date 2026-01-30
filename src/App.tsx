@@ -25,6 +25,10 @@ function App() {
       }),
     [trussWidth, pitch, maxVerticalMemberSpacing]
   );
+  const panelCount = Math.max(1, Math.ceil(trussWidth / maxVerticalMemberSpacing));
+  const ridgeHeight = (trussWidth / 2) * Math.tan((pitch * Math.PI) / 180);
+
+  const memberSizeMeters = memberSize / 100;
 
   return (
     <div className="App">
@@ -45,6 +49,15 @@ function App() {
             memberSize={memberSize}
             materialPreset={materialPreset}
             spanPresets={spanPresets}
+            panelCount={panelCount}
+            ridgeHeight={ridgeHeight}
+            onReset={() => {
+              setTrussWidth(defaultTrussState.width);
+              setPitch(defaultTrussState.pitchDeg);
+              setMaxVerticalMemberSpacing(defaultTrussState.maxVerticalSpacing);
+              setMemberSize(defaultTrussState.memberSize);
+              setMaterialPreset(defaultTrussState.materialPreset);
+            }}
             onWidthChange={setTrussWidth}
             onPitchChange={setPitch}
             onSpacingChange={setMaxVerticalMemberSpacing}
@@ -64,7 +77,7 @@ function App() {
             <div className="Preview-frame">
               <TrussPreview
                 members={trussMembers}
-                memberSize={memberSize}
+                memberSize={memberSizeMeters}
                 palette={materialPresets[materialPreset]}
                 rendererConfig={rendererDefaults}
               />

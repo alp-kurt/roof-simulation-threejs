@@ -4,7 +4,7 @@ export const defaultTrussState = {
   width: 20,
   pitchDeg: 17,
   maxVerticalSpacing: 1.5,
-  memberSize: 0.2,
+  memberSize: 20,
   materialPreset: 'Steel' as keyof typeof materialPresets,
 };
 

@@ -8,6 +8,9 @@ interface InputsPanelProps {
   memberSize: number;
   materialPreset: keyof typeof materialPresets;
   spanPresets: { label: string; width: number; pitch: number; spacing: number }[];
+  panelCount: number;
+  ridgeHeight: number;
+  onReset: () => void;
   onWidthChange: (value: number) => void;
   onPitchChange: (value: number) => void;
   onSpacingChange: (value: number) => void;
@@ -23,6 +26,9 @@ export const InputsPanel = ({
   memberSize,
   materialPreset,
   spanPresets,
+  panelCount,
+  ridgeHeight,
+  onReset,
   onWidthChange,
   onPitchChange,
   onSpacingChange,
@@ -59,85 +65,115 @@ export const InputsPanel = ({
         </option>
         {spanPresets.map((preset) => (
           <option key={preset.label} value={preset.label}>
-            {preset.label}
+            {preset.label} · {preset.width}m / {preset.pitch}°
           </option>
         ))}
       </select>
     </div>
-    <div className="Control-row">
-      <label htmlFor="width">
-        Total Span Width (meters)
-        <span className="Help" data-help="Overall horizontal distance from left support to right support.">
-          ?
-        </span>
-      </label>
-      <input
-        id="width"
-        type="number"
-        value={trussWidth}
-        onChange={(e) => onWidthChange(Number(e.target.value))}
-      />
+    <div className="Control-group">
+      <h3>Geometry</h3>
+      <div className="Control-row">
+        <label htmlFor="width">
+          Total Span Width (meters)
+          <span className="Help" data-help="Overall horizontal distance from left support to right support.">
+            ?
+          </span>
+        </label>
+        <div className="Control-input">
+          <input
+            id="width"
+            type="number"
+            min={4}
+            max={60}
+            step={0.5}
+            value={trussWidth}
+            onChange={(e) => onWidthChange(Number(e.target.value))}
+          />
+          <span className="Unit">m</span>
+        </div>
+      </div>
+      <div className="Control-row">
+        <label htmlFor="pitch">
+          Roof Pitch Angle (degrees)
+          <span className="Help" data-help="Angle from horizontal to the top chord; controls ridge height.">
+            ?
+          </span>
+        </label>
+        <div className="Control-input">
+          <input
+            id="pitch"
+            type="number"
+            min={5}
+            max={45}
+            step={0.5}
+            value={pitch}
+            onChange={(e) => onPitchChange(Number(e.target.value))}
+          />
+          <span className="Unit">°</span>
+        </div>
+      </div>
+      <div className="Control-row">
+        <label htmlFor="spacing">
+          Max Vertical Spacing (meters)
+          <span className="Help" data-help="Largest allowed gap between vertical members; sets panel count.">
+            ?
+          </span>
+        </label>
+        <div className="Control-input">
+          <input
+            id="spacing"
+            type="number"
+            min={0.5}
+            max={4}
+            step={0.1}
+            value={maxVerticalMemberSpacing}
+            onChange={(e) => onSpacingChange(Number(e.target.value))}
+          />
+          <span className="Unit">m</span>
+        </div>
+      </div>
     </div>
-    <div className="Control-row">
-      <label htmlFor="pitch">
-        Roof Pitch Angle (degrees)
-        <span className="Help" data-help="Angle from horizontal to the top chord; controls ridge height.">
-          ?
-        </span>
-      </label>
-      <input
-        id="pitch"
-        type="number"
-        value={pitch}
-        onChange={(e) => onPitchChange(Number(e.target.value))}
-      />
-    </div>
-    <div className="Control-row">
-      <label htmlFor="spacing">
-        Max Vertical Spacing (meters)
-        <span className="Help" data-help="Largest allowed gap between vertical members; sets panel count.">
-          ?
-        </span>
-      </label>
-      <input
-        id="spacing"
-        type="number"
-        value={maxVerticalMemberSpacing}
-        onChange={(e) => onSpacingChange(Number(e.target.value))}
-      />
-    </div>
-    <div className="Control-row">
+    <div className="Control-group">
+      <h3>Appearance</h3>
+      <div className="Control-row">
       <label htmlFor="memberSize">
-        Member Size (square section, meters)
+        Member Size (square section, centimeters)
         <span className="Help" data-help="Visual thickness for each member in the 3D preview.">
           ?
         </span>
       </label>
-      <input
-        id="memberSize"
-        type="number"
-        value={memberSize}
-        onChange={(e) => onMemberSizeChange(Number(e.target.value))}
-      />
+      <div className="Control-input">
+        <input
+          id="memberSize"
+          type="number"
+          min={5}
+          max={60}
+          step={1}
+          value={memberSize}
+          onChange={(e) => onMemberSizeChange(Number(e.target.value))}
+        />
+        <span className="Unit">cm</span>
+      </div>
     </div>
-    <div className="Control-row">
-      <label htmlFor="material">
-        Finish Palette
-        <span className="Help" data-help="Color scheme to distinguish chord and web members quickly.">
-          ?
-        </span>
-      </label>
-      <select
-        id="material"
-        value={materialPreset}
-        onChange={(e) => onMaterialChange(e.target.value as keyof typeof materialPresets)}
-      >
-        {Object.keys(materialPresets).map((preset) => (
-          <option key={preset} value={preset}>
-            {preset}
-          </option>
-        ))}
-      </select>
+      <div className="Control-row">
+        <label htmlFor="material">
+          Finish Palette
+          <span className="Help" data-help="Color scheme to distinguish chord and web members quickly.">
+            ?
+          </span>
+        </label>
+        <select
+          id="material"
+          value={materialPreset}
+          onChange={(e) => onMaterialChange(e.target.value as keyof typeof materialPresets)}
+        >
+          {Object.keys(materialPresets).map((preset) => (
+            <option key={preset} value={preset}>
+              {preset}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
     <div className="Panel-footer">
       <div className="Metric">
@@ -148,6 +184,19 @@ export const InputsPanel = ({
         <span>Pitch</span>
         <strong>{pitch} deg</strong>
       </div>
+      <div className="Metric">
+        <span>Panels</span>
+        <strong>{panelCount}</strong>
+      </div>
+      <div className="Metric">
+        <span>Ridge height</span>
+        <strong>{ridgeHeight.toFixed(2)} m</strong>
+      </div>
+    </div>
+    <div className="Panel-actions">
+      <button type="button" onClick={onReset}>
+        Reset to defaults
+      </button>
     </div>
   </section>
 );

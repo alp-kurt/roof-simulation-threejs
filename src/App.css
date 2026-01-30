@@ -117,8 +117,9 @@
 }
 
 .Panel-footer {
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   padding-top: 8px;
   border-top: 1px solid rgba(120, 140, 170, 0.2);
 }
@@ -134,6 +135,51 @@
 .Metric strong {
   font-size: 1.1rem;
   color: #f7f9fc;
+}
+
+.Control-group {
+  padding-top: 6px;
+  margin-top: 6px;
+  border-top: 1px dashed rgba(120, 140, 170, 0.2);
+}
+
+.Control-group h3 {
+  margin: 6px 0 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #7f8ea3;
+}
+
+.Control-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.Unit {
+  font-size: 0.8rem;
+  color: #7f8ea3;
+}
+
+.Panel-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Panel-actions button {
+  background: rgba(120, 140, 170, 0.15);
+  color: #f0f4f9;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.Panel-actions button:hover {
+  border-color: rgba(164, 190, 224, 0.65);
 }
 
 .Preview-frame {
