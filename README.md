@@ -1,5 +1,9 @@
 # Double-Howe Roof Truss Designer
 
+[![Deploy to GitHub Pages](https://github.com/alp-kurt/roof-simulation-threejs/actions/workflows/deploy.yml/badge.svg)](https://github.com/alp-kurt/roof-simulation-threejs/actions/workflows/deploy.yml)
+
+Live preview: https://alp-kurt.github.io/roof-simulation-threejs
+
 A React + Three.js tool for generating a **parametric Double‑Howe roof truss**.
 It produces a deterministic list of truss members and renders them in 3D so you
 can explore proportions, spacing, and member sizing.
