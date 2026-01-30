@@ -47,6 +47,7 @@ export function TrussPreview({
       <div className="Viewport-toolbar">
         <button
           type="button"
+          aria-label="Recenter camera on truss"
           onClick={() => {
             if (!controlsRef.current) return;
             controlsRef.current.reset();
@@ -58,6 +59,7 @@ export function TrussPreview({
         </button>
         <button
           type="button"
+          aria-label="Switch to elevation view"
           onClick={() => {
             if (!controlsRef.current) return;
             controlsRef.current.object.position.set(centerX, bounds.maxY + rendererConfig.elevationOffset, 0);
@@ -67,10 +69,10 @@ export function TrussPreview({
         >
           Elevation
         </button>
-        <button type="button" onClick={() => setShowGrid((prev) => !prev)}>
+        <button type="button" aria-label="Toggle grid" onClick={() => setShowGrid((prev) => !prev)}>
           {showGrid ? "Hide Grid" : "Show Grid"}
         </button>
-        <button type="button" onClick={() => setShowAxes((prev) => !prev)}>
+        <button type="button" aria-label="Toggle axes" onClick={() => setShowAxes((prev) => !prev)}>
           {showAxes ? "Hide Axes" : "Show Axes"}
         </button>
       </div>

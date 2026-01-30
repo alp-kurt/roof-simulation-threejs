@@ -45,6 +45,7 @@ export const InputsPanel = ({
       <label htmlFor="preset">
         Span Preset (quick start)
         <span
+          id="help-preset"
           className="Help"
           data-help="Apply a vetted span, pitch, and spacing bundle to jump-start the layout."
         >
@@ -53,6 +54,8 @@ export const InputsPanel = ({
       </label>
       <select
         id="preset"
+        aria-label="Span preset"
+        aria-describedby="help-preset"
         value=""
         onChange={(e) => {
           const preset = spanPresets.find((item) => item.label === e.target.value);
@@ -73,16 +76,22 @@ export const InputsPanel = ({
     <div className="Control-group">
       <h3>Geometry</h3>
       <div className="Control-row">
-        <label htmlFor="width">
-          Total Span Width (meters)
-          <span className="Help" data-help="Overall horizontal distance from left support to right support.">
-            ?
-          </span>
-        </label>
+      <label htmlFor="width">
+        Total Span Width (meters)
+        <span
+          id="help-width"
+          className="Help"
+          data-help="Overall horizontal distance from left support to right support."
+        >
+          ?
+        </span>
+      </label>
         <div className="Control-input">
           <input
             id="width"
             type="number"
+            aria-label="Total span width in meters"
+            aria-describedby="help-width"
             min={4}
             max={60}
             step={0.5}
@@ -93,16 +102,22 @@ export const InputsPanel = ({
         </div>
       </div>
       <div className="Control-row">
-        <label htmlFor="pitch">
-          Roof Pitch Angle (degrees)
-          <span className="Help" data-help="Angle from horizontal to the top chord; controls ridge height.">
-            ?
-          </span>
-        </label>
+      <label htmlFor="pitch">
+        Roof Pitch Angle (degrees)
+        <span
+          id="help-pitch"
+          className="Help"
+          data-help="Angle from horizontal to the top chord; controls ridge height."
+        >
+          ?
+        </span>
+      </label>
         <div className="Control-input">
           <input
             id="pitch"
             type="number"
+            aria-label="Roof pitch angle in degrees"
+            aria-describedby="help-pitch"
             min={5}
             max={45}
             step={0.5}
@@ -113,16 +128,22 @@ export const InputsPanel = ({
         </div>
       </div>
       <div className="Control-row">
-        <label htmlFor="spacing">
-          Max Vertical Spacing (meters)
-          <span className="Help" data-help="Largest allowed gap between vertical members; sets panel count.">
-            ?
-          </span>
-        </label>
+      <label htmlFor="spacing">
+        Max Vertical Spacing (meters)
+        <span
+          id="help-spacing"
+          className="Help"
+          data-help="Largest allowed gap between vertical members; sets panel count."
+        >
+          ?
+        </span>
+      </label>
         <div className="Control-input">
           <input
             id="spacing"
             type="number"
+            aria-label="Maximum vertical spacing in meters"
+            aria-describedby="help-spacing"
             min={0.5}
             max={4}
             step={0.1}
@@ -138,35 +159,47 @@ export const InputsPanel = ({
       <div className="Control-row">
       <label htmlFor="memberSize">
         Member Size (square section, centimeters)
-        <span className="Help" data-help="Visual thickness for each member in the 3D preview.">
+        <span
+          id="help-member-size"
+          className="Help"
+          data-help="Visual thickness for each member in the 3D preview."
+        >
           ?
         </span>
       </label>
-      <div className="Control-input">
-        <input
-          id="memberSize"
-          type="number"
-          min={5}
-          max={60}
-          step={1}
-          value={memberSize}
-          onChange={(e) => onMemberSizeChange(Number(e.target.value))}
+        <div className="Control-input">
+          <input
+            id="memberSize"
+            type="number"
+            aria-label="Member size in centimeters"
+            aria-describedby="help-member-size"
+            min={5}
+            max={60}
+            step={1}
+            value={memberSize}
+            onChange={(e) => onMemberSizeChange(Number(e.target.value))}
         />
         <span className="Unit">cm</span>
       </div>
     </div>
       <div className="Control-row">
-        <label htmlFor="material">
-          Finish Palette
-          <span className="Help" data-help="Color scheme to distinguish chord and web members quickly.">
-            ?
-          </span>
-        </label>
-        <select
-          id="material"
-          value={materialPreset}
-          onChange={(e) => onMaterialChange(e.target.value as keyof typeof materialPresets)}
+      <label htmlFor="material">
+        Finish Palette
+        <span
+          id="help-material"
+          className="Help"
+          data-help="Color scheme to distinguish chord and web members quickly."
         >
+          ?
+        </span>
+      </label>
+      <select
+        id="material"
+        aria-label="Material palette"
+        aria-describedby="help-material"
+        value={materialPreset}
+        onChange={(e) => onMaterialChange(e.target.value as keyof typeof materialPresets)}
+      >
           {Object.keys(materialPresets).map((preset) => (
             <option key={preset} value={preset}>
               {preset}
@@ -194,7 +227,7 @@ export const InputsPanel = ({
       </div>
     </div>
     <div className="Panel-actions">
-      <button type="button" onClick={onReset}>
+      <button type="button" aria-label="Reset inputs to defaults" onClick={onReset}>
         Reset to defaults
       </button>
     </div>

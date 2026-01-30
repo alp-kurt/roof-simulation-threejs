@@ -116,6 +116,14 @@
   box-shadow: 0 0 0 3px rgba(90, 130, 175, 0.25);
 }
 
+.Control-row input:focus-visible,
+.Control-row select:focus-visible,
+.Panel-actions button:focus-visible,
+.Viewport-toolbar button:focus-visible {
+  outline: 2px solid #f7c948;
+  outline-offset: 2px;
+}
+
 .Panel-footer {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
