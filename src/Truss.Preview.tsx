@@ -1,35 +1,26 @@
 import { Canvas } from "@react-three/fiber";
-import { ITrussSpecification } from "./ITrussSpecification";
 import { Line, OrbitControls } from "@react-three/drei";
+import { Member } from "./ITrussSpecification";
 
-export function TrussPreview({trussSpecification}: {trussSpecification: ITrussSpecification}) {
-    
+const memberColors: Record<Member["type"], string> = {
+  bottom: "yellow",
+  top: "red",
+  vertical: "green",
+  diagonal: "blue",
+};
+
+export function TrussPreview({ members }: { members: Member[] }) {
   return (
     <Canvas style={{height: 500}}>
         <OrbitControls />
-        <Line
-            points={trussSpecification.bottomChord?.map(point => ([point.x, point.y, 0]))}
-            color="yellow"
-        />
-        {trussSpecification.topChords?.map((points, index) => (
+        {members.map((member) => (
             <Line
-            key={`top-${index}`}
-            points={points.map(point => ([point.x, point.y, 0]))}
-            color="red"
-        />
-        ))}
-        {trussSpecification.verticalMembers?.map((points, index) => (
-            <Line
-            key={`vert-${index}`}
-            points={points.map(point => ([point.x, point.y, 0]))}
-            color="green"
-        />
-        ))}
-        {trussSpecification.diagonalMembers?.map((points, index) => (
-            <Line
-            key={`diag-${index}`}
-            points={points.map(point => ([point.x, point.y, 0]))}
-            color="blue"
+            key={`${member.type}-${member.start.x},${member.start.y},${member.end.x},${member.end.y}`}
+            points={[
+              [member.start.x, member.start.y, member.start.z],
+              [member.end.x, member.end.y, member.end.z],
+            ]}
+            color={memberColors[member.type]}
         />
         ))}
     </Canvas>
