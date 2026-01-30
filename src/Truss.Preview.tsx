@@ -2,8 +2,8 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Member } from "./ITrussSpecification";
-
-type Palette = Record<Member["type"], string>;
+import { Palette } from "./render/palette";
+import { getBounds } from "./render/bounds";
 
 export function TrussPreview({
   members,
@@ -19,15 +19,7 @@ export function TrussPreview({
   const [showGrid, setShowGrid] = React.useState(true);
   const [showAxes, setShowAxes] = React.useState(false);
 
-  const bounds = members.reduce(
-    (acc, member) => {
-      acc.minX = Math.min(acc.minX, member.start.x, member.end.x);
-      acc.maxX = Math.max(acc.maxX, member.start.x, member.end.x);
-      acc.maxY = Math.max(acc.maxY, member.start.y, member.end.y);
-      return acc;
-    },
-    { minX: Infinity, maxX: -Infinity, maxY: -Infinity }
-  );
+  const bounds = getBounds(members);
   const ridgeX = 0;
   const ridgeY = bounds.maxY;
   const groundY = -size * 2;
