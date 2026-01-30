@@ -143,6 +143,7 @@
   background: linear-gradient(180deg, rgba(12, 16, 24, 0.9), rgba(22, 30, 44, 0.95));
   overflow: hidden;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  position: relative;
 }
 
 .Help {
@@ -182,6 +183,35 @@
 .Help:hover::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+.TrussViewport {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.Viewport-toolbar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.Viewport-toolbar button {
+  background: rgba(18, 24, 34, 0.9);
+  color: #e7edf6;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.Viewport-toolbar button:hover {
+  border-color: rgba(164, 190, 224, 0.65);
 }
 
 @media (max-width: 960px) {
